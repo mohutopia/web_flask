@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <input autocomplete="off" autofocus name="q" type="text" placeholder="Query...">
+  <ul></ul>
+  <script
+   src="https://code.jquery.com/jquery-3.3.1.min.js"
+   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+   crossorigin="anonymous"></script>
+  <script>
+   let input = document.querySelector('input')
+    input.onkeyup = function(){
+     $.get('/search?q=' + input.value, function(data) {
+      document.querySelector('ul').innerHTML = data
+     })
+    }
+  </script>
+{% endblock %}

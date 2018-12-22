@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block body %}
+ Hello, {{ q }}
+ <form action="/register" method="post">
+  <input name="name" type="text" placeholder="Name ...">
+  <select name="dorm">
+   <option value="" selected disabled>Dorm</option>
+   <option value="Apley Court">Apley Court</option>
+   <option value="Canaday">Canaday</option>
+  </select>
+  <input type="submit" value="Register">
+ </form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body  %}
+ <ul>
+  {% for row in rows %}
+   <li> {{ row["nam"] }} registered </li>
+  {% endfor %}
+ </ul>
+
+ <form method="GET" action="/search">
+  <p> Or look for a registrant :</p>
+  <input name="q" placeholder="registrant's name ..." type="text">
+  <input type="submit" value="Search">
+ </form>
+{% endblock %}

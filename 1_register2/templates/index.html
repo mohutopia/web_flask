@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+ <form action="/register" method="post">
+  <input name="name" type="text" placeholder="Name ...">
+  <select name="dorm">
+   <option value="" selected disabled>Dorm</option>
+   <option value="Apley Court">Apley Court</option>
+   <option value="Canaday">Canaday</option>
+   <option value="Mathews">Mathews</option>
+   <option value="Eld">Eld</option>
+   <option value="Pennypacker">Pennypacker</option>
+  </select>
+  <input type="submit" value="Register">
+ </form>
+ or see who is <a href="/registered">registered</a>.
+ <script>
+  document.querySelector('form').onsubmit = function(){
+   if (!document.querySelector('input').value) {
+    alert("You must provide your name!")
+    return false
+   } else if (!document.querySelector('select').value) {
+    alert("You must provide your dorm!")
+    return false
+   }
+   return true
+  }
+ </script>
+{% endblock %}
