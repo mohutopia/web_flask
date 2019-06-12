@@ -1,0 +1,99 @@
+// let's create a new celebs table
+CREATE TABLE celebs (id INTEGER, name TEXT, age INTEGER);
+
+// insert in new data
+INSERT INTO celebs (id, name, age) VALUES (1, 'Justin Bieber', 22);
+INSERT INTO celebs (id, name, age) VALUES (2, 'Beyonce Knowles', 33);
+INSERT INTO celebs (id, name, age)  VALUES (3, 'Jeremy Lin', 26); 
+INSERT INTO celebs (id, name, age) VALUES (4, 'Taylor Swift', 26);
+INSERT INTO celebs (id, name, age) VALUES (5, 'Soolking', 28);
+INSERT INTO celebs (id, name, age) VALUES (6, 'Jensen Ackles', 38);
+
+// query the database
+SELECT name FROM celebs;
+SELECT * FROM celebs;
+// select individual columns by their names (separated by a comma)
+SELECT name, age FROM celebs;
+// to rename a column or table using an alias
+SELECT name as 'cool' FROM celebs;
+// the columns have not been renamed in the table. The aliases only appear in the result
+// DISTINCT filters out all duplicate values in the specified column(s)
+SELECT DISTINCT age FROM celebs;
+// restrict our query results using the WHERE clause in order to obtain only the information we want
+SELECT * FROM celebs WHERE age < 25;
+// when you want to compare similar values
+SELECT * FROM celebs WHERE age LIKE '2_';
+// _ means you can substitute any individual character here without breaking the pattern
+// % is a wildcard character that matches zero or more missing letters in the pattern
+SELECT * FROM celebs WHERE name LIKE 'A%'; // names that start with A
+SELECT * FROM celebs WHERE name LIKE 'B%'; // names that start with B
+// find all the celebs without an age
+SELECT * FROM celebs WHERE age IS NULL;
+// find all the celebs with an age
+SELECT * FROM celebs WHERE age IS NOT NULL;
+// filters the result set to only include movies with names that begin with letters 'A' up to, but not including 'J'
+SELECT * FROM celebs WHERE name BETWEEN 'A' AND 'J';
+// It is often useful to list the data in our result set in a particular order.
+// We can sort the results using ORDER BY, either alphabetically or numerically. 
+SELECT * FROM celebs ORDER BY age;
+// to sort things in a decreasing order
+SELECT * FROM celebs ORDER BY age DESC;
+// LIMIT is a clause that lets you specify the maximum number of rows the result set will have
+SELECT * FROM celebs ORDER BY age DESC LIMIT 3;
+
+// A CASE statement allows us to create different outputs (usually in the SELECT statement). 
+// It is SQL's way of handling if-then logic
+SELECT age,
+ CASE
+  WHEN age > 18 THEN 'adult'
+  WHEN age < 18 THEN 'teenage'
+  ELSE 'no age set'
+ END AS 'legality'
+FROM celebs;
+
+// add new columns into the table
+ALTER TABLE celebs ADD COLUMN twitter_handle TEXT;
+
+// update a column in the table
+UPDATE celebs SET twitter_handle = '@taylorswift13' WHERE id = 4;
+
+// delete all of the rows that have a NULL value in the twitter handle column
+DELETE FROM celebs WHERE twitter_handle IS NULL;
+
+// create a new table with constraints on the values
+CREATE TABLE awards (id INTEGER PRIMARY KEY, recipient TEXT NOT NULL, award_name TEXT DEFAULT 'Grammy');
+
+// aggregates : kind of like built in functions
+SELECT COUNT(*) FROM fake_apps; // to count how many apps in a table
+SELECT SUM(downloads) FROM fake_apps;
+SELECT MAX(price) FROM fake_apps; // MIN()
+SELECT AVG(downloads) FROM fake_apps;
+SELECT ROUND(AVG(price), 2) FROM fake_apps;
+SELECT category, price, AVG(downloads) FROM fake_apps GROUP BY category, price;
+SELECT ROUND(imdb_rating), COUNT(name) FROM movies GROUP BY 1 ORDER BY 1; // 1 means the first column selected
+
+
+...
+
+
+// Start by performing a left join of newspaper table and online table on their id columns and selecting all columns
+SELECT * FROM newspaper LEFT JOIN online ON newspaper.id = online.id;
+// In order to find which users do not subscribe to the online edition, we need to add a WHERE clause.
+SELECT * FROM newspaper LEFT JOIN online ON newspaper.id = online.id WHERE online.id IS NULL;
+// Sometimes, we just want to combine all rows of one table with all rows of another table -> CROSS JOIN
+// CROSS JOIN doesn't require an ON statement
+
+// Sometimes we just want to stack one dataset on top of the other. Well, the UNION operator allows us to do that.
+SELECT * FROM newspaper UNION SELECT * FROM online;
+
+// we are putting a whole first query inside the parentheses () and giving it a name. After that, we can use this name as if it's a table and write a new query using the first query
+WITH previous_results AS (
+   SELECT ...
+   ...
+   ...
+   ...
+)
+SELECT *
+FROM previous_results
+JOIN customers
+  ON _____ = _____;
